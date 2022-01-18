@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <script type="module">
+    import { h, Component, render } from 'https://unpkg.com/preact?module';
+
+    class App extends Component {
+      render() {
+        return (
+          h('div', null,
+            h('h1', null, 'Calculate Points Rendus'),
+            h('form', null, 
+              h('input', { type: "text" }),
+              h('button', { type: "submit"}, 'Update')
+            )
+          )
+        );
+      }
+    }
+
+    const app = h(App, '');
+
+    render(app, document.body);
+  </script>
+</head>
+
+<body>
+    
+</body>
+
+</html>
