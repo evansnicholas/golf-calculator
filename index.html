@@ -2,6 +2,45 @@
 <html>
 
 <head>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet"> 
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      text-align: center;
+      font-size: 36px;
+    }
+
+    select {
+      width: 200px;
+      height: 30px;
+    }
+
+    h1 {
+      margin: 0px;
+      background-color: #9EEBCF;
+      padding-top: 20px;
+      padding-bottom: 20px;
+      color: white;
+    }
+
+    div.input {
+      display: flex;
+      align-items: center;
+      padding-top: 5px;
+    }
+
+    input {
+      height: 30px;
+    }
+
+    div.form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+  </style>
   <script type="module">
     import { h, Component, render } from 'https://unpkg.com/preact?module';
 
@@ -76,55 +115,74 @@
         
       }
 
+      formatCoupsRendus = (shots) => {
+        if (shots === undefined || shots === null) {
+          return 'Pas de joueurs';
+        }
+        if (shots === 0) {
+          return 'Pas de coups rendus';
+        }
+        const player = shots > 0 ? '2' : '1';
+        return `Joueur ${player} rends ${Math.abs(shots)} coups`;
+      }
+
       render() {
         console.log(this.state);
 
         return (
           h('div', null,
-            h('h1', null, 'Calculatrice Points Rendus'),
-            h('form', null, 
-              h('h2', null, 'Joueur 1'),
-              h('div', { style: 'padding-bottom:10px' },
-                h('select', { onChange: (e) => this.selectPlayerGender(e, 1) }, 
-                  h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
-                  h('option', { value: 'm' }, 'Homme'),
-                  h('option', { value: 'w' }, 'Femme'))),
-              h('div', { style: 'padding-bottom:10px' },
-                h('select', { onChange: (e) => this.selectPlayerTees(e, 1) }, 
-                  h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
-                  h('option', { value: 'y' }, 'Jaune'),
-                  h('option', { value: 'b' }, 'Bleu'),
-                  h('option', { value: 'r' }, 'Rouge'))),
-              h('label', { for: 'handicap', style: 'padding-right:5px' }, 'Handicap'),
-              h('input', {
-                id: 'handicap', 
-                type: "text",
-                value: this.state.value,
-                onInput: (e) => this.onInput(e, 1) }),
-              h('h2', null, 'Joueur 2'),
-              h('div', { style: 'padding-bottom:10px' },
-                h('select', { onChange: (e) => this.selectPlayerGender(e, 2) }, 
-                  h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
-                  h('option', { value: 'm' }, 'Homme'),
-                  h('option', { value: 'w' }, 'Femme'))),
-              h('div', { style: 'padding-bottom:10px' },
-                h('select', { onChange: (e) => this.selectPlayerTees(e, 2) }, 
-                  h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
-                  h('option', { value: 'y' }, 'Jaune'),
-                  h('option', { value: 'b' }, 'Bleu'),
-                  h('option', { value: 'r' }, 'Rouge'))),
-              h('label', { for: 'handicap', style: 'padding-right:5px' }, 'Handicap'),
-              h('input', {
-                id: 'handicap', 
-                type: "text",
-                value: this.state.value,
-                onInput: (e) => this.onInput(e, 2) }),
+            h('div', { class: 'title' },
+              h('h1', null, 'Calculatrice Points Rendus')),
+            h('form', null,
+              h('div', { class: 'form' }, 
+                h('h2', null, 'Joueur 1'),
+                h('div', { style: 'padding-bottom:10px' },
+                  h('select', { onChange: (e) => this.selectPlayerGender(e, 1) }, 
+                    h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
+                    h('option', { value: 'm' }, 'Homme'),
+                    h('option', { value: 'w' }, 'Femme'))
+                ),
+                h('div', { style: 'padding-bottom:10px' },
+                  h('select', { onChange: (e) => this.selectPlayerTees(e, 1) }, 
+                    h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
+                    h('option', { value: 'y' }, 'Jaune'),
+                    h('option', { value: 'b' }, 'Bleu'),
+                    h('option', { value: 'r' }, 'Rouge'))),
+                h('div', { class: 'input' },
+                  h('label', { for: 'handicap', style: 'padding-right:5px' }, 'Handicap'),
+                  h('input', {
+                    id: 'handicap', 
+                    type: "text",
+                    value: this.state.value,
+                    onInput: (e) => this.onInput(e, 1)})
+                ),
+                h('h2', null, 'Joueur 2'),
+                h('div', { style: 'padding-bottom:10px' },
+                  h('select', { onChange: (e) => this.selectPlayerGender(e, 2) }, 
+                    h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
+                    h('option', { value: 'm' }, 'Homme'),
+                    h('option', { value: 'w' }, 'Femme'))),
+                h('div', { style: 'padding-bottom:10px' },
+                  h('select', { onChange: (e) => this.selectPlayerTees(e, 2) }, 
+                    h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
+                    h('option', { value: 'y' }, 'Jaune'),
+                    h('option', { value: 'b' }, 'Bleu'),
+                    h('option', { value: 'r' }, 'Rouge'))),
+                h('div', { class: 'input' },
+                  h('label', { for: 'handicap', style: 'padding-right:5px' }, 'Handicap'),
+                  h('input', {
+                    id: 'handicap', 
+                    type: "text",
+                    value: this.state.value,
+                    onInput: (e) => this.onInput(e, 2) })
+                )
+              )
             ),
             h('button', { onClick: this.calculate }, 'Calculer'),
             h('h2', null, 'Coups rendus'),
-            h('p', null, `Player 1 handicap: ${this.state.p1H ?? 'No player 1'}`),
-            h('p', null, `Player 2 handicap: ${this.state.p2H ?? 'No player 2'}`),
-            h('p', null, this.state.shots ?? 'Enter values')
+            h('p', null, `Player 1 handicap de jeu: ${this.state.p1H ?? 'Pas de joueur 1'}`),
+            h('p', null, `Player 2 handicap de jeu: ${this.state.p2H ?? 'Pas de joueur 2'}`),
+            h('p', null, this.formatCoupsRendus(this.state.shots))
           )
         );
       }
