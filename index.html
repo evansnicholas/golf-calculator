@@ -33,12 +33,66 @@
 
     input {
       height: 30px;
+      font-size: 24px;
     }
 
     div.form {
       display: flex;
       flex-direction: column;
       align-items: center;
+    }
+
+    button.player-data {
+      display: inline-block;
+      border-style: solid;
+      border-width: 1px;
+      padding: 1rem 2rem;
+      font-size: 24px;
+      margin: 0;
+      text-decoration: none;
+      background: white;
+      color: black;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    button.calculate {
+      display: inline-block;
+      border: none;
+      padding: 1rem;
+      font-size: 24px;
+      margin: 0;
+      text-decoration: none;
+      background: black;
+      color: white;
+      cursor: pointer;
+      text-align: center;
+      width: 100%;
+    }
+
+    .spacer {
+      display: inline-block;
+      width: 5px;
+    }
+
+    button.player-data.selected {
+      background-color: #9EEBCF;
+      color: white;
+    }
+
+    button.player-data.selected-y {
+      background-color: #FBF1A9;
+      color: white;
+    }
+
+    button.player-data.selected-b {
+      background-color: #96CCFF;
+      color: white;
+    }
+
+    button.player-data.selected-r {
+      background-color: #FF725C;
+      color: white;
     }
   </style>
   <script type="module">
@@ -85,16 +139,16 @@
         this.setState(newState);
       }
 
-      selectPlayerGender = (e, player) => {
+      selectPlayerGender = (gender, player) => {
         const playerState = this.state[player];
-        playerState.gender = e.target.value;
+        playerState.gender = gender
         const newState = Object.assign({}, this.state, { [player]: playerState });
         this.setState(newState);
       }
 
-      selectPlayerTees = (e, player) => {
+      selectPlayerTees = (tees, player) => {
         const playerState = this.state[player];
-        playerState.tees = e.target.value;
+        playerState.tees = tees;
         const newState = Object.assign({}, this.state, { [player]: playerState });
         this.setState(newState);
       }
@@ -117,59 +171,109 @@
 
       formatCoupsRendus = (shots) => {
         if (shots === undefined || shots === null) {
-          return 'Pas de joueurs';
+          return 'Pas de joueur(se)s';
         }
         if (shots === 0) {
           return 'Pas de coups rendus';
         }
         const player = shots > 0 ? '2' : '1';
-        return `Joueur ${player} rends ${Math.abs(shots)} coups`;
+        return `Joueur(se) ${player} rend ${Math.abs(shots)} coups`;
+      }
+
+      getGenderButtonClass(player, gender) {
+        let playerDataClass = 'player-data';
+        if (this.state[player] && this.state[player].gender) {
+          if (this.state[player].gender === gender) {
+            playerDataClass = `${playerDataClass} selected`;
+          }
+        }
+        return playerDataClass;
+      } 
+
+      getTeeButtonClass(player, tees) {
+        let playerDataClass = 'player-data';
+        if (this.state[player] && this.state[player].tees) {
+          if (this.state[player].tees === tees) {
+            playerDataClass = `${playerDataClass} selected-${tees}`;
+          }
+        }
+        return playerDataClass;
       }
 
       render() {
         console.log(this.state);
-
         return (
           h('div', null,
             h('div', { class: 'title' },
               h('h1', null, 'Calculatrice Points Rendus')),
-            h('form', null,
+            h('form', { style: 'padding-bottom:25px' },
               h('div', { class: 'form' }, 
-                h('h2', null, 'Joueur 1'),
-                h('div', { style: 'padding-bottom:10px' },
-                  h('select', { onChange: (e) => this.selectPlayerGender(e, 1) }, 
-                    h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
-                    h('option', { value: 'm' }, 'Homme'),
-                    h('option', { value: 'w' }, 'Femme'))
+                h('h2', null, 'Joueur(se) 1'),
+                h('div', { style: 'padding-bottom:15px' },
+                  h('button', { 
+                    type: 'button',
+                    class: this.getGenderButtonClass(1, 'm'),
+                    onClick: () => this.selectPlayerGender('m', 1) }, 'Homme'),
+                  h('div', { class: "spacer" }),
+                  h('button', { 
+                    type: 'button',
+                    class: this.getGenderButtonClass(1, 'w'),
+                    onClick: () => this.selectPlayerGender('w', 1) }, 'Femme')
                 ),
-                h('div', { style: 'padding-bottom:10px' },
-                  h('select', { onChange: (e) => this.selectPlayerTees(e, 1) }, 
-                    h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
-                    h('option', { value: 'y' }, 'Jaune'),
-                    h('option', { value: 'b' }, 'Bleu'),
-                    h('option', { value: 'r' }, 'Rouge'))),
+                h('div', { style: 'padding-bottom:15px' },
+                  h('button', { 
+                    type: 'button',
+                    class: this.getTeeButtonClass(1, 'y'),
+                    onClick: () => this.selectPlayerTees('y', 1) }, 'Jaune'),
+                  h('div', { class: "spacer" }),
+                  h('button', { 
+                    type: 'button',
+                    class: this.getTeeButtonClass(1, 'b'),
+                    onClick: () => this.selectPlayerTees('b', 1) }, 'Bleu'),
+                  h('div', { class: "spacer" }),
+                  h('button', { 
+                    type: 'button',
+                    class: this.getTeeButtonClass(1, 'r'),
+                    onClick: () => this.selectPlayerTees('r', 1) }, 'Rouge')
+                ),
                 h('div', { class: 'input' },
-                  h('label', { for: 'handicap', style: 'padding-right:5px' }, 'Handicap'),
+                  h('label', { for: 'handicap', style: 'padding-right:5px' }, 'Index'),
                   h('input', {
                     id: 'handicap', 
                     type: "text",
                     value: this.state.value,
                     onInput: (e) => this.onInput(e, 1)})
                 ),
-                h('h2', null, 'Joueur 2'),
+                h('h2', null, 'Joueur(se) 2'),
                 h('div', { style: 'padding-bottom:10px' },
-                  h('select', { onChange: (e) => this.selectPlayerGender(e, 2) }, 
-                    h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
-                    h('option', { value: 'm' }, 'Homme'),
-                    h('option', { value: 'w' }, 'Femme'))),
+                  h('button', { 
+                    type: 'button',
+                    class: this.getGenderButtonClass(2, 'm'),
+                    onClick: () => this.selectPlayerGender('m', 2) }, 'Homme'),
+                  h('div', { class: "spacer" }),
+                  h('button', { 
+                    type: 'button',
+                    class: this.getGenderButtonClass(2, 'w'),
+                    onClick: () => this.selectPlayerGender('w', 2) }, 'Femme')
+                ),
                 h('div', { style: 'padding-bottom:10px' },
-                  h('select', { onChange: (e) => this.selectPlayerTees(e, 2) }, 
-                    h('option', { disabled: "disabled", selected: "selected" }, 'Faites un choix:'),
-                    h('option', { value: 'y' }, 'Jaune'),
-                    h('option', { value: 'b' }, 'Bleu'),
-                    h('option', { value: 'r' }, 'Rouge'))),
+                  h('button', { 
+                    type: 'button',
+                    class: this.getTeeButtonClass(2, 'y'),
+                    onClick: () => this.selectPlayerTees('y', 2) }, 'Jaune'),
+                  h('div', { class: "spacer" }),
+                  h('button', { 
+                    type: 'button',
+                    class: this.getTeeButtonClass(2, 'b'),
+                    onClick: () => this.selectPlayerTees('b', 2) }, 'Bleu'),
+                  h('div', { class: "spacer" }),
+                  h('button', { 
+                    type: 'button',
+                    class: this.getTeeButtonClass(2, 'r'),
+                    onClick: () => this.selectPlayerTees('r', 2) }, 'Rouge')
+                ),
                 h('div', { class: 'input' },
-                  h('label', { for: 'handicap', style: 'padding-right:5px' }, 'Handicap'),
+                  h('label', { for: 'handicap', style: 'padding-right:5px' }, 'Index'),
                   h('input', {
                     id: 'handicap', 
                     type: "text",
@@ -178,10 +282,10 @@
                 )
               )
             ),
-            h('button', { onClick: this.calculate }, 'Calculer'),
+            h('button', { class: 'calculate', onClick: this.calculate }, 'Calculer'),
             h('h2', null, 'Coups rendus'),
-            h('p', null, `Player 1 handicap de jeu: ${this.state.p1H ?? 'Pas de joueur 1'}`),
-            h('p', null, `Player 2 handicap de jeu: ${this.state.p2H ?? 'Pas de joueur 2'}`),
+            h('p', null, `Handicap de jeu joueur(se) 1: ${this.state.p1H ?? 'Pas de joueur(se) 1'}`),
+            h('p', null, `Handicap de jeu joueur(se) 2: ${this.state.p2H ?? 'Pas de joueur(se) 2'}`),
             h('p', null, this.formatCoupsRendus(this.state.shots))
           )
         );
