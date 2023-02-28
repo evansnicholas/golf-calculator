@@ -81,6 +81,11 @@
       color: white;
     }
 
+    button.player-data.selected-w {
+      background-color: #EEEEEE;
+      color: white;
+    }
+
     button.player-data.selected-y {
       background-color: #FBF1A9;
       color: white;
@@ -101,6 +106,10 @@
 
     const data = {
       m: {
+        w: {
+          slope: 139,
+          sss: 72.6
+        },
         y: {
           slope: 134,
           sss: 70.2
@@ -149,6 +158,10 @@
 
       selectPlayerTees = (tees, player) => {
         const playerState = this.state[player];
+        if (playerState && playerState.gender === 'w' && tees === 'w') {
+          alert(`Pas de calcul possible pour les femmes partants des tees blancs.`);
+          return;
+        }
         playerState.tees = tees;
         const newState = Object.assign({}, this.state, { [player]: playerState });
         this.setState(newState);
@@ -224,6 +237,11 @@
                 h('div', { style: 'padding-bottom:15px' },
                   h('button', { 
                     type: 'button',
+                    class: this.getTeeButtonClass(1, 'w'),
+                    onClick: () => this.selectPlayerTees('w', 1) }, 'Blanc'),
+                  h('div', { class: "spacer" }),
+                  h('button', { 
+                    type: 'button',
                     class: this.getTeeButtonClass(1, 'y'),
                     onClick: () => this.selectPlayerTees('y', 1) }, 'Jaune'),
                   h('div', { class: "spacer" }),
@@ -258,6 +276,11 @@
                     onClick: () => this.selectPlayerGender('w', 2) }, 'Femme')
                 ),
                 h('div', { style: 'padding-bottom:10px' },
+                  h('button', { 
+                    type: 'button',
+                    class: this.getTeeButtonClass(2, 'w'),
+                    onClick: () => this.selectPlayerTees('w', 2) }, 'Blanc'),
+                  h('div', { class: "spacer" }),
                   h('button', { 
                     type: 'button',
                     class: this.getTeeButtonClass(2, 'y'),
