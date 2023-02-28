@@ -43,11 +43,19 @@
       align-items: center;
     }
 
+    div.tee-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      row-gap: 10px;
+      column-gap: 10px;
+    }
+
     button.player-data {
       display: inline-block;
       border-style: solid;
       border-width: 1px;
-      padding: 1rem 2rem;
+      padding: 1rem 1rem;
       font-size: 18px;
       margin: 0;
       text-decoration: none;
@@ -55,6 +63,7 @@
       color: black;
       cursor: pointer;
       text-align: center;
+      width: 6rem;
     }
 
     button.calculate {
@@ -73,7 +82,7 @@
 
     .spacer {
       display: inline-block;
-      width: 5px;
+      width: 10px;
     }
 
     button.player-data.selected {
@@ -235,25 +244,24 @@
                     onClick: () => this.selectPlayerGender('w', 1) }, 'Femme')
                 ),
                 h('div', { style: 'padding-bottom:15px' },
-                  h('button', { 
-                    type: 'button',
-                    class: this.getTeeButtonClass(1, 'w'),
-                    onClick: () => this.selectPlayerTees('w', 1) }, 'Blanc'),
-                  h('div', { class: "spacer" }),
-                  h('button', { 
-                    type: 'button',
-                    class: this.getTeeButtonClass(1, 'y'),
-                    onClick: () => this.selectPlayerTees('y', 1) }, 'Jaune'),
-                  h('div', { class: "spacer" }),
-                  h('button', { 
-                    type: 'button',
-                    class: this.getTeeButtonClass(1, 'b'),
-                    onClick: () => this.selectPlayerTees('b', 1) }, 'Bleu'),
-                  h('div', { class: "spacer" }),
-                  h('button', { 
-                    type: 'button',
-                    class: this.getTeeButtonClass(1, 'r'),
-                    onClick: () => this.selectPlayerTees('r', 1) }, 'Rouge')
+                  h('div', { class: 'tee-container' },
+                    h('button', { 
+                      type: 'button',
+                      class: this.getTeeButtonClass(1, 'w'),
+                      onClick: () => this.selectPlayerTees('w', 1) }, 'Blanc'),
+                    h('button', { 
+                      type: 'button',
+                      class: this.getTeeButtonClass(1, 'y'),
+                      onClick: () => this.selectPlayerTees('y', 1) }, 'Jaune'),
+                    h('button', { 
+                      type: 'button',
+                      class: this.getTeeButtonClass(1, 'b'),
+                      onClick: () => this.selectPlayerTees('b', 1) }, 'Bleu'),
+                    h('button', { 
+                      type: 'button',
+                      class: this.getTeeButtonClass(1, 'r'),
+                      onClick: () => this.selectPlayerTees('r', 1) }, 'Rouge')
+                  )
                 ),
                 h('div', { class: 'input' },
                   h('label', { for: 'handicap', style: 'padding-right:5px' }, 'Index'),
@@ -276,25 +284,24 @@
                     onClick: () => this.selectPlayerGender('w', 2) }, 'Femme')
                 ),
                 h('div', { style: 'padding-bottom:10px' },
-                  h('button', { 
-                    type: 'button',
-                    class: this.getTeeButtonClass(2, 'w'),
-                    onClick: () => this.selectPlayerTees('w', 2) }, 'Blanc'),
-                  h('div', { class: "spacer" }),
-                  h('button', { 
-                    type: 'button',
-                    class: this.getTeeButtonClass(2, 'y'),
-                    onClick: () => this.selectPlayerTees('y', 2) }, 'Jaune'),
-                  h('div', { class: "spacer" }),
-                  h('button', { 
-                    type: 'button',
-                    class: this.getTeeButtonClass(2, 'b'),
-                    onClick: () => this.selectPlayerTees('b', 2) }, 'Bleu'),
-                  h('div', { class: "spacer" }),
-                  h('button', { 
-                    type: 'button',
-                    class: this.getTeeButtonClass(2, 'r'),
-                    onClick: () => this.selectPlayerTees('r', 2) }, 'Rouge')
+                  h('div', { class: 'tee-container' }, 
+                    h('button', { 
+                      type: 'button',
+                      class: this.getTeeButtonClass(2, 'w'),
+                      onClick: () => this.selectPlayerTees('w', 2) }, 'Blanc'),
+                    h('button', { 
+                      type: 'button',
+                      class: this.getTeeButtonClass(2, 'y'),
+                      onClick: () => this.selectPlayerTees('y', 2) }, 'Jaune'),
+                    h('button', { 
+                      type: 'button',
+                      class: this.getTeeButtonClass(2, 'b'),
+                      onClick: () => this.selectPlayerTees('b', 2) }, 'Bleu'),
+                    h('button', { 
+                      type: 'button',
+                      class: this.getTeeButtonClass(2, 'r'),
+                      onClick: () => this.selectPlayerTees('r', 2) }, 'Rouge')
+                  ),
                 ),
                 h('div', { class: 'input' },
                   h('label', { for: 'handicap', style: 'padding-right:5px' }, 'Index'),
